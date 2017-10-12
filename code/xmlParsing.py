@@ -14,8 +14,8 @@ fileCount = 0
 pageCount = 0
 
 class WikiHandler(xml.sax.ContentHandler):
-	
-	def __init__(self):	
+
+	def __init__(self):
 		self.CurrentData = ""
 		self.page = ""
 		self.title = ""
@@ -37,7 +37,7 @@ class WikiHandler(xml.sax.ContentHandler):
 				pageCount = 0
 
 			self.page = WikiPage()
-		
+
 		if tag == "redirect":
 			self.page.bodyText = attributes["title"].encode('utf8')
 
@@ -59,10 +59,10 @@ class WikiHandler(xml.sax.ContentHandler):
 	def characters(self, content):
 		if self.CurrentData == "title":
 			self.title = content.encode('utf8')
-		
+
 		if self.CurrentData == "id":
 			self.id = content.encode('utf8')
-		
+
 		if self.CurrentData == "text":
 			self.text += content.encode('utf8')
 
@@ -73,7 +73,7 @@ def xmlParser(xmlFileName):
 
 	Handler = WikiHandler()
 	parser.setContentHandler(Handler)
-	
+
 	parser.parse(xmlFileName)
 
 
@@ -105,7 +105,7 @@ def createIntermediateFile():
 
 def mergeFiles():
 	out = open(sys.argv[2], 'w+')
-	
+
 	for i in range(1, fileCount):
 		temp = open('0.txt', 'r')
 		final = open('final.txt', 'w+')
@@ -201,6 +201,3 @@ if __name__ == "__main__":
 	mergeFiles()
 
 	writeToFile(pageMap, 'pageMap.txt')
-
-	createTertiaryIndex()
-	writeToFile(tertiaryIndex, 'tertiaryIndex.txt')
